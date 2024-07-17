@@ -20,3 +20,8 @@ class User:
       self.cardNumber = 1234567891123456
     cardsList.append(self.cardNumber)
     NIDList.append(self.nationalID)
+
+def accessInfo():
+  for user in users:
+    print(f"Nombre: {user.name} \nNID: {user.nationalID} \nPIN: {user.pin} \nNúmero de tarjeta: {user.cardNumber}")
+    print("-----------------------------------")
