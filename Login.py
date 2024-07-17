@@ -1,5 +1,20 @@
 # Login with card
 import database
+import userMenu
+
+def verifyPin(index, exitFunction):
+  try:
+    pin = int(input("Ingresa tu clave de seguridad de 4 dígitos: "))
+    user = database.users[index]
+    if pin == 0:
+      return 
+    if pin == user.pin:
+      return userMenu.start(user, exitFunction)
+    print("El pin no coincide con la tarjeta. Vuelva a intentarlo o escriba 0 para salir.")
+    return verifyPin(index, exitFunction)
+  except:
+    print("Ocurrió un error, vuelve a intentarlo.")
+    return verifyPin(index)
 
 def accessCard(exitFunction):
   try:
@@ -9,9 +24,8 @@ def accessCard(exitFunction):
       return exitFunction()
     if cardNumber in database.cardsList:
       print("¡Tarjeta encontrada exitosamente!\n")
-      return exitFunction()
-      # index = database.cardsList.index(cardNumber)
-      # return verifyPin(index)
+      index = database.cardsList.index(cardNumber)
+      return verifyPin(index, exitFunction)
     print("No se encontró la tarjeta, vuelva a intentar.")
     return accessCard(exitFunction)
   except:
@@ -26,9 +40,8 @@ def accessNID(exitFunction):
       return exitFunction()
     if nationalID in database.NIDList:
       print("¡Usuario encontrado exitosamente!\n")
-      return exitFunction()
-      # index = database.NIDList.index(nationalID)
-      # return verifyPin(index)
+      index = database.NIDList.index(nationalID)
+      return verifyPin(index)
     print("No se encontró el usuario, vuelva a intentar.")
     return accessNID(exitFunction)
   except:
