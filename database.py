@@ -9,6 +9,7 @@ users = []
 
 #Class users
 class User:
+
   def __init__(self, name, nationalID, pin ):
     self.name = name
     self.nationalID = nationalID
@@ -20,6 +21,12 @@ class User:
       self.cardNumber = 1234567891123456
     cardsList.append(self.cardNumber)
     NIDList.append(self.nationalID)
+
+  def addMoney(self, amount):
+    self.money = self.money + amount
+
+  def removeMoney(self, amount):
+    self.money = self.money - amount
 
 def accessInfo():
   for user in users:
