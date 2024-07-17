@@ -41,7 +41,7 @@ def accessNID(exitFunction):
     if nationalID in database.NIDList:
       print("¡Usuario encontrado exitosamente!\n")
       index = database.NIDList.index(nationalID)
-      return verifyPin(index)
+      return verifyPin(index, exitFunction)
     print("No se encontró el usuario, vuelva a intentar.")
     return accessNID(exitFunction)
   except:
