@@ -8,9 +8,9 @@ import database
 
 def welcomeScreen():
   #Welcome panel:
-  print("\n--------------------")
-  print("¡Bienvenido/a a ATM!")
-  print("--------------------\n")
+  print("\n--------------------------------")
+  print("¡Bienvenido/a a Nuevo Perú Bank!")
+  print("--------------------------------\n")
   try:
     option = int(input("¿Qué acción desea realizar?:\n1) Crear cuenta \n2) Acceder con tarjeta \n3) Acceder sin tarjeta\n0) Salir\n\nIndique el numero de su opción: "))
     if option == 0:
