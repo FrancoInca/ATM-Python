@@ -1,3 +1,5 @@
+import database
+
 def start(user, exitFunction):
   try:
     print(f"\nBienvenido/a {user.name}")
@@ -8,7 +10,7 @@ def start(user, exitFunction):
     print("3) Consultar información.")
     print("4) Transferir dinero.")
     print("0) Cerrar sesión.")
-    option = int(input("\nEscriba el numero de su opción: "))
+    option = int(input("\nEscriba el número de su opción: "))
     if option == 0:
       print(f"¡Hasta la próxima vez, {user.name}!\n")
       return exitFunction()
@@ -23,6 +25,9 @@ def start(user, exitFunction):
       print(f"Fondos: {user.money}")
       print(f"N° de tarjeta: {user.cardNumber}")
       print("-----------------------------------")
+      return start(user, exitFunction)
+    if option == 4:
+      transferMoney(user)
       return start(user, exitFunction)
     print("Opcion no valida. Vuelva a intentar")
     return start(user, exitFunction)
@@ -44,6 +49,7 @@ def depositMoney(user):
     return
   except:
     print("Ocurrió un error, vuelva a intentarlo o escriba 0 para salir")
+    return depositMoney(user)
 
 def withdrawMoney(user):
   try:
@@ -62,3 +68,38 @@ def withdrawMoney(user):
     return
   except:
     print("Ocurrió un error, vuelva a intentarlo o escriba 0 para salir")
+    return withdrawMoney(user)
+
+def transferMoney(user):
+  try:
+    NIDNumber = int(input("Introduce el número de DNI del destinatario o 0 para cancelar: "))
+    if NIDNumber == 0:
+      print("Operación cancelada.")
+      return
+    if NIDNumber == user.money:
+      print("Esta cuenta le pertenece a usted.")
+      return
+    # Verify if exist in NID list
+    destinyUser = database.getUser(NIDNumber)
+    if destinyUser == False:
+      print("Vuelva a intentarlo.")
+      return transferMoney(user)
+    # Verify the amount of transference
+    amount = int(input("Introduzca la cantidad de dinero a depositar: "))
+    if amount > user.money:
+      print("¡Fondos insuficientes!")
+      return 
+    if amount < 0:
+      print("Operación inválida.")
+      return
+    if amount == 0:
+      print("Operación cancelada.")
+      return
+    # Removes the money of user and add of detinatary
+    user.removeMoney(amount)
+    destinyUser.addMoney(amount)
+    print("Operacion finalizada con éxito!")
+    return
+  except:
+    print("Hubo un error al transferir su dinero. Intentelo nuevamente.")
+    return transferMoney(user)
