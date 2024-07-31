@@ -4,17 +4,22 @@ import userMenu
 
 def verifyPin(index, exitFunction):
   try:
-    pin = int(input("Ingresa tu clave de seguridad de 4 dígitos: "))
+    tries = 0
     user = database.users[index]
-    if pin == 0:
-      return 
-    if pin == user.pin:
-      return userMenu.start(user, exitFunction)
-    print("El pin no coincide con la tarjeta. Vuelva a intentarlo o escriba 0 para salir.")
-    return verifyPin(index, exitFunction)
+    while tries <= 4:
+      pin = int(input("Ingresa tu clave de seguridad de 4 dígitos: "))
+      if pin == 0:
+        return 
+      if pin == user.pin:
+        return userMenu.start(user, exitFunction)
+      if tries == 4:
+        return print("No cuenta con más intentos, operación cancelada.")
+      tries = tries + 1
+      print("El pin no coincide con la tarjeta. Vuelva a intentarlo o escriba 0 para salir.")
+      print(f"Tiene {4 - tries} intentos restantes.")
   except:
     print("Ocurrió un error, vuelve a intentarlo.")
-    return verifyPin(index)
+    return verifyPin(index, exitFunction)
 
 def accessCard(exitFunction):
   try:
