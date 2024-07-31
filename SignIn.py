@@ -7,6 +7,9 @@ def start(exitFunction):
   try:
     name = input("Introduzca su nombre completo: ")
     nationalID = int(input("Introduzca su DNI: "))
+    if database.getUser(nationalID) != False:
+      print("Usuario creado con anterioriad. Verifique sus datos e intentelo de nuevo.")
+      return start(exitFunction)
     pin = validatePin()
     newUser = database.User(name, nationalID, pin)
     database.users.append(newUser)
@@ -28,7 +31,7 @@ def validatePin():
       print("¡Clave de seguridad añadida exitosamente!")
       return pin
     print("Las claves no coinciden.\nInténtelo nuevamente")
-    return validatePin
+    return validatePin()
   except:
     print("Ha ocurrido un error, introduzca correctamente su pin.")
     return validatePin()
