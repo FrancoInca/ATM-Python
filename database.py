@@ -28,6 +28,13 @@ class User:
   def removeMoney(self, amount):
     self.money = self.money - amount
 
+def getUser(NIDNumber):
+  if NIDNumber in NIDList:
+    index = NIDList.index(NIDNumber)
+    user = users[index]
+    return user
+  return False
+
 def accessInfo():
   for user in users:
     print(f"Nombre: {user.name} \nNID: {user.nationalID} \nPIN: {user.pin} \nNúmero de tarjeta: {user.cardNumber}")
